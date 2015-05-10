@@ -1,8 +1,9 @@
 #!/bin/sh
 
-cd lua ;
-git submodule init ;
-git submodule update ;
-cmake . ;
-make ;
-mv luaconf.h src\ ;
+if [ ! -s "lua/liblua.dylib" ]; then (
+	cd lua ;
+	git submodule init ;
+	git submodule update ;
+	cmake . ;
+	make ;
+) fi ;

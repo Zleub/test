@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-04-17 19:22:25
-// :ddddddddddhyyddddddddddd: Modified: 2015-04-30 14:20:20
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 18:32:20
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -98,7 +98,12 @@ int			Socket::_read(int fd)
 
 	memset(buf, 0, 255);
 	if (!(n = read(fd, buf, 255)))
+	{
+		std::cout << "exit ?" << std::endl;
+
+
 		return 0;
+	}
 	else if (n < 0)
 	{
 		std::cerr << "read" << std::endl;
