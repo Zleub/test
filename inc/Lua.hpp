@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-03-24 10:27:00
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 18:27:45
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 18:41:59
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -17,6 +17,7 @@
 #define LUA_HPP
 
 extern "C" {
+	#include <luaconf.h>
 	#include <lua.h>
 	#include <lualib.h>
 	#include <lauxlib.h>

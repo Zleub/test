@@ -5,9 +5,9 @@ OBJ =	$(addprefix src/, $(subst .cpp,.o,$(SRC)))
 CC		=	g++
 FLAGS	=	-Wall -Werror -Wextra
 
-INC		=	-Iinc -Ilua/src
+INC		=	-Iinc -Ilib/lua -Ilib/lua/src
 
-LIB		=	-Llua -llua
+LIB		=	-Llib/lua -llua
 
 .PHONY: all re clean fclean
 
@@ -30,6 +30,4 @@ clean:
 fclean:
 	rm -rf $(OBJ)
 	rm -rf $(NAME)
-	rm -rf lua/liblua.dylib
-	rm -rf lua/lua
-	rm -rf lua/luac
+	make -C lua clean
