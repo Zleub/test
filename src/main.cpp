@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-04-28 22:51:13
-// :ddddddddddhyyddddddddddd: Modified: 2015-04-30 14:16:03
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 18:12:29
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -21,7 +21,7 @@ int		main(void)
 	std::cout << "Hello Wolrd !" << std::endl;
 
 	Lua			L;
-	Socket		s("pollier.me", 4242);
+	Socket		s("localhost", 4242);
 
 	s.setLua(&L);
 	while (42)
