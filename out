@@ -1,13 +1,70 @@
 Hello Wolrd !
 Lua Constructor
-_select : nb client : 0
-new client on 4
-_select : nb client : 1
-got message: 'caca
-' by 4
-_select : nb client : 1
-got message: 'print('Hello')
-' by 4
-_select : nb client : 1
-Client 4 left
+pcall	function: 0x7fdb9bc6f160	function
+select	function: 0x7fdb9bc6ea10	function
+rawget	function: 0x7fdb9bc6eb70	function
+table	table: 0xbd9c50	table
+_G	table: 0xbd75f0	table
+rawequal	function: 0x7fdb9bc6ec10	function
+rawset	function: 0x7fdb9bc6eb20	function
+setmetatable	function: 0x7fdb9bc6f1c0	function
+pairs	function: 0x7fdb9bc6f330	function
+io	table: 0xbd9f70	table
+assert	function: 0x7fdb9bc6f630	function
+xpcall	function: 0x7fdb9bc6f0a0	function
+error	function: 0x7fdb9bc6eed0	function
+package	table: 0xbd7e50	table
+loadstring	function: 0x7fdb9bc6f3e0	function
+load	function: 0x7fdb9bc6f3e0	function
+print	function: 0x7fdb9bc6ec50	function
+rawlen	function: 0x7fdb9bc6ebc0	function
+module	function: 0xbd97d0	function
+collectgarbage	function: 0x7fdb9bc6ef40	function
+coroutine	table: 0xbd98b0	table
+tonumber	function: 0x7fdb9bc6e7e0	function
+os	table: 0xbd9ba0	table
+math	table: 0xbdc410	table
+bit32	table: 0xbd8ca0	table
+dofile	function: 0x7fdb9bc6f5b0	function
+debug	table: 0xbdaac0	table
+string	table: 0xbd8640	table
+tostring	function: 0x7fdb9bc6e7b0	function
+_VERSION	Lua 5.2	string
+loadfile	function: 0x7fdb9bc6f4f0	function
+unpack	function: 0x7fdb9bc75d90	function
+getmetatable	function: 0x7fdb9bc6f560	function
+ipairs	function: 0x7fdb9bc6f350	function
+require	function: 0xbd9840	function
+type	function: 0x7fdb9bc6e770	function
+next	function: 0x7fdb9bc6edb0	function
+
+pcall	function: 0x7fdb9bc6f160
+select	function: 0x7fdb9bc6ea10
+rawget	function: 0x7fdb9bc6eb70
+_G	table: 0xbd75f0
+rawequal	function: 0x7fdb9bc6ec10
+rawset	function: 0x7fdb9bc6eb20
+setmetatable	function: 0x7fdb9bc6f1c0
+pairs	function: 0x7fdb9bc6f330
+assert	function: 0x7fdb9bc6f630
+xpcall	function: 0x7fdb9bc6f0a0
+error	function: 0x7fdb9bc6eed0
+loadstring	function: 0x7fdb9bc6f3e0
+load	function: 0x7fdb9bc6f3e0
+print	function: 0x7fdb9bc6ec50
+rawlen	function: 0x7fdb9bc6ebc0
+module	function: 0xbd97d0
+collectgarbage	function: 0x7fdb9bc6ef40
+tonumber	function: 0x7fdb9bc6e7e0
+dofile	function: 0x7fdb9bc6f5b0
+tostring	function: 0x7fdb9bc6e7b0
+_VERSION	Lua 5.2
+loadfile	function: 0x7fdb9bc6f4f0
+unpack	function: 0x7fdb9bc75d90
+getmetatable	function: 0x7fdb9bc6f560
+ipairs	function: 0x7fdb9bc6f350
+require	function: 0xbd9840
+type	function: 0x7fdb9bc6e770
+next	function: 0x7fdb9bc6edb0
+
 _select : nb client : 0
