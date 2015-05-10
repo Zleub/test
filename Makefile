@@ -5,14 +5,14 @@ OBJ =	$(addprefix src/, $(subst .cpp,.o,$(SRC)))
 CC		=	g++
 FLAGS	=	-Wall -Werror -Wextra
 
-INC		=	-Iinc
+INC		=	-Iinc -Ilua/src
 
-LIB		=	-llua5.2
+LIB		=	-Llua -llua
 
 .PHONY: all re clean fclean
 
 _depend:
-	$(shell sh depend.sh)
+	sh depend.sh
 
 all: _depend $(NAME)
 
@@ -30,3 +30,6 @@ clean:
 fclean:
 	rm -rf $(OBJ)
 	rm -rf $(NAME)
+	rm -rf lua/liblua.dylib
+	rm -rf lua/lua
+	rm -rf lua/luac
