@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd lua ;
+cd lib/lua ;
 git submodule init ;
 git submodule update ;
 cmake . ;
