@@ -1,0 +1,13 @@
+Hello Wolrd !
+Lua Constructor
+_select : nb client : 0
+new client on 4
+_select : nb client : 1
+got message: 'caca
+' by 4
+_select : nb client : 1
+got message: 'print('Hello')
+' by 4
+_select : nb client : 1
+Client 4 left
+_select : nb client : 0
