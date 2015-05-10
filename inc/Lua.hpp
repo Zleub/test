@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-03-24 10:27:00
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 22:22:03
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 23:06:38
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -33,11 +33,6 @@ private:
 	lua_State	*L;
 
 	void			getError(int);
-	std::string		getString(std::string);
-	int				getNumber(std::string);
-	// int			getTable(std::string);
-
-	std::string		getType(std::string);
 public:
 	typedef enum	e_luav
 	{
@@ -67,12 +62,8 @@ public:
 
 	Lua(void);
 	~Lua(void);
-
-	/** Lua in-interpret init */
 	void		init(void);
-	/** Lua exec */
 	void		exec(std::string);
-
 	s_luav *	getVar(std::string);
 	void		printType(int);
 };

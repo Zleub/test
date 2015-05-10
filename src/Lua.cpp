@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-03-24 10:27:00
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 22:28:24
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 23:12:06
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -29,7 +29,7 @@ Lua::~Lua(void) {}
 
 void				Lua::init(void)
 {
-	// this->exec("dofile('init.lua')\n");
+	this->exec("dofile('lua/init.lua')");
 }
 
 void				Lua::exec(std::string str)
@@ -48,29 +48,12 @@ void				Lua::getError(int error)
 	}
 }
 
-std::string			Lua::getString(std::string name)
-{
-	lua_getglobal(L, name.c_str());
-	if (!lua_isstring(L, -1))
-		std::cerr << "No " << name << " string" << std::endl;
-	else
-		return lua_tostring(L, -1);
-	return ("");
-}
-
-int					Lua::getNumber(std::string name)
-{
-	lua_getglobal(L, name.c_str());
-	if (!lua_isnumber(L, -1))
-		std::cerr << "No " << name << " number" << std::endl;
-	else
-		return lua_tonumber(L, -1);
-	return (0);
-}
-
 Lua::s_luav *		Lua::getVar(std::string name)
 {
 	Lua::s_luav *	tmp;
+
+	if (name.find('.') != std::string::npos)
+		std::cout << "nested va;" << std::endl;
 
 	tmp = new Lua::s_luav();
 	lua_getglobal(L, name.c_str());
