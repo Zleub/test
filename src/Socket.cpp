@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-04-17 19:22:25
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 18:32:20
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 19:54:23
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -17,6 +17,13 @@
 #include <Socket.hpp>
 
 Socket::Socket(std::string host, int port) : _nbClients(0)
+{
+	init(host, port);
+};
+
+Socket::~Socket(void) { close(fd); };
+
+void		Socket::init(std::string host, int port)
 {
 	fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (fd == -1)
@@ -34,11 +41,9 @@ Socket::Socket(std::string host, int port) : _nbClients(0)
 
 	FD_ZERO (&(active_fd_set));
 	FD_SET (fd, &(active_fd_set));
-};
+}
 
-Socket::~Socket(void) { close(fd); };
-
-void	Socket::_select(void)
+void		Socket::_select(void)
 {
 	std::cout << "_select : nb client : " << _nbClients << std::endl;
 
@@ -57,13 +62,21 @@ void		Socket::isset(void)
 	if (FD_ISSET (isset_cnt, &(read_fd_set)))
 	{
 		if (isset_cnt == fd)
-			_accept();
+			_list.push_back(_accept());
 		else if (!_read(isset_cnt))
 		{
 			std::cout << "Client " << isset_cnt << " left" << std::endl;
 			close (isset_cnt);
 			FD_CLR (isset_cnt, &active_fd_set);
 			_nbClients -= 1;
+			for (std::vector<Client *>::iterator i = _list.begin(); i != _list.end(); ++i)
+			{
+				if (isset_cnt == (*i)->getFd())
+				{
+					_list.erase(i);
+					return ;
+				}
+			}
 		}
 	}
 	isset_cnt += 1;
@@ -99,9 +112,7 @@ int			Socket::_read(int fd)
 	memset(buf, 0, 255);
 	if (!(n = read(fd, buf, 255)))
 	{
-		std::cout << "exit ?" << std::endl;
-
-
+		std::cout << "EOF received" << std::endl;
 		return 0;
 	}
 	else if (n < 0)
@@ -112,16 +123,9 @@ int			Socket::_read(int fd)
 	else
 	{
 		std::cout << "got message: \'" << buf << "\' by " << fd << std::endl;
-
-		int out = dup(1);
-		dup2(fd, 1);
-		_L->exec(buf);
-		dup2(out, 1);
-
 		return 1;
 	}
 }
 
-int		Socket::getFd(void) { return fd; }
-int		Socket::getNbClients(void) { return _nbClients; }
-void	Socket::setLua(Lua * _l) { _L = _l; }
+int			Socket::getFd(void) { return fd; }
+int			Socket::getNbClients(void) { return _nbClients; }

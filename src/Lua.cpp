@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-03-24 10:27:00
-// :ddddddddddhyyddddddddddd: Modified: 2015-04-30 15:11:45
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 22:28:24
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -27,19 +27,19 @@ Lua::Lua(void)
 
 Lua::~Lua(void) {}
 
-void		Lua::init(void)
+void				Lua::init(void)
 {
-	this->exec("dofile('init.lua')\n");
+	// this->exec("dofile('init.lua')\n");
 }
 
-void		Lua::exec(std::string str)
+void				Lua::exec(std::string str)
 {
 	this->getError(luaL_loadbuffer(this->L, str.c_str(), str.size(), "line")
 		|| lua_pcall(this->L, 0, 0, 0)
 	);
 }
 
-void		Lua::getError(int error)
+void				Lua::getError(int error)
 {
 	if (error)
 	{
@@ -48,7 +48,7 @@ void		Lua::getError(int error)
 	}
 }
 
-std::string	Lua::getString(std::string name)
+std::string			Lua::getString(std::string name)
 {
 	lua_getglobal(L, name.c_str());
 	if (!lua_isstring(L, -1))
@@ -58,7 +58,7 @@ std::string	Lua::getString(std::string name)
 	return ("");
 }
 
-int			Lua::getNumber(std::string name)
+int					Lua::getNumber(std::string name)
 {
 	lua_getglobal(L, name.c_str());
 	if (!lua_isnumber(L, -1))
@@ -68,28 +68,59 @@ int			Lua::getNumber(std::string name)
 	return (0);
 }
 
-Lua::Test	Lua::getVar(std::string name)
+Lua::s_luav *		Lua::getVar(std::string name)
 {
-	// Lua::Caca
-	Lua::Test _u;
+	Lua::s_luav *	tmp;
 
-	_u._s = 0;
+	tmp = new Lua::s_luav();
 	lua_getglobal(L, name.c_str());
+
 	if (lua_isnumber(L, -1))
-		_u._i = lua_tonumber(L, -1);
+	{
+		tmp->var._i = lua_tonumber(L, -1);
+		tmp->type = Lua::TNUMBER;
+	}
 	else if (lua_isstring(L, -1))
-		_u._s = lua_tostring(L, -1);
-	return (_u);
+	{
+		tmp->var._s = lua_tostring(L, -1);
+		tmp->type = Lua::TSTRING;
+	}
+	else
+	{
+		std::cout << "Unable to convert such value " << name << ": ";
+		printType(lua_type (L, -1));
+	}
+	lua_pop(L, 1);
+	return (tmp);
 }
 
-std::ostream &		operator<<(std::ostream & os, Lua::Test obj)
+void				Lua::printType(int t)
 {
-	(void)obj;
-	// if (obj._s)
-	// 	std::cout << obj._s << std::endl;
-	// else if (obj._i)
-	// 	std::cout << obj._i << std::endl;
-	// else
-	// 	std::cout << "Time for BULLSHIT" << std::endl;
-	return os << "This is op surcharge" << std::endl;
+	if (t == Lua::TNIL)
+		std::cout << "TNIL type" << std::endl;
+	if (t == Lua::TBOOLEAN)
+		std::cout << "TBOOLEAN type" << std::endl;
+	if (t == Lua::TLIGHTUSERDATA)
+		std::cout << "TLIGHTUSERDATA type" << std::endl;
+	if (t == Lua::TNUMBER)
+		std::cout << "TNUMBER type" << std::endl;
+	if (t == Lua::TSTRING)
+		std::cout << "TSTRING type" << std::endl;
+	if (t == Lua::TTABLE)
+		std::cout << "TTABLE type" << std::endl;
+	if (t == Lua::TFUNCTION)
+		std::cout << "TFUNCTION type" << std::endl;
+	if (t == Lua::TUSERDATA)
+		std::cout << "TUSERDATA type" << std::endl;
+	if (t == Lua::TTHREAD)
+		std::cout << "TTHREAD type" << std::endl;
+}
+
+std::ostream &		operator<<(std::ostream & os, Lua::s_luav * obj)
+{
+	if (obj->type == Lua::TSTRING)
+		os << obj->var._s;
+	else if (obj->type == Lua::TNUMBER)
+		os << obj->var._i;
+	return os ;
 }

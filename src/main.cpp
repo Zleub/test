@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-04-28 22:51:13
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 18:12:29
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 20:04:06
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -15,15 +15,15 @@
 
 #include <iostream>
 #include <Socket.hpp>
+#include <Manager.hpp>
 
 int		main(void)
 {
 	std::cout << "Hello Wolrd !" << std::endl;
 
-	Lua			L;
+	Manager		m;
 	Socket		s("localhost", 4242);
 
-	s.setLua(&L);
 	while (42)
 		s._select();
 
