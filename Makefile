@@ -11,7 +11,10 @@ LIB		=	-llua5.2
 
 .PHONY: all re clean fclean
 
-all: $(NAME)
+_depend:
+	$(shell sh depend.sh)
+
+all: _depend $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) -o $@ $^ $(LIB)
