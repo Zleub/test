@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-03-24 10:27:00
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 23:06:38
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-12 04:08:52
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -33,6 +33,8 @@ private:
 	lua_State	*L;
 
 	void			getError(int);
+	s_luav *		getNestedVar(std::string);
+
 public:
 	typedef enum	e_luav
 	{

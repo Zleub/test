@@ -6,7 +6,7 @@
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-03-24 10:27:00
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-10 23:12:06
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-12 04:11:35
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -46,6 +46,12 @@ void				Lua::getError(int error)
 		std::cerr << lua_tostring(this->L, -1) << std::endl;
 		lua_pop(this->L, 1);  /* pop error message from the stack */
 	}
+}
+
+Lua::s_luav *		Lua::getNestedVar(std::string name)
+{
+	lua_getglobal(L, name.c_str());
+
 }
 
 Lua::s_luav *		Lua::getVar(std::string name)
