@@ -2,11 +2,11 @@
 //      ./shddddddddhs+.
 //    :yddddddddddddddddy:
 //  `sdddddddddddddddddddds`
-//  ydddh+sdddddddddy+ydddds  None:Lua
+//  ydddh+sdddddddddy+ydddds  test:Lua
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-03-24 10:27:00
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-12 04:11:35
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-17 05:11:39
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -27,9 +27,37 @@ Lua::Lua(void)
 
 Lua::~Lua(void) {}
 
+Lua::Bundle *		Lua::makeBundle(std::string name)
+{
+	Lua::Bundle *	tmp;
+
+	tmp = new Lua::Bundle();
+	if (lua_isnumber(L, -1))
+	{
+		tmp->var._i = lua_tonumber(L, -1);
+		tmp->type = Lua::TNUMBER;
+	}
+	else if (lua_isstring(L, -1))
+	{
+		tmp->var._s = lua_tostring(L, -1);
+		tmp->type = Lua::TSTRING;
+	}
+	else if (lua_istable(L, -1))
+	{
+		tmp->var._ptr = new std::function<void()>();
+		tmp->type = Lua::TFUNCTION;
+	}
+	else
+	{
+		std::cout << "Unable to convert such value in Bundle " << name << ": ";
+		printType(lua_type (L, -1));
+	}
+	return (tmp);
+}
+
 void				Lua::init(void)
 {
-	this->exec("dofile('lua/init.lua')");
+	exec("require 'lua.init'");
 }
 
 void				Lua::exec(std::string str)
@@ -48,38 +76,56 @@ void				Lua::getError(int error)
 	}
 }
 
-Lua::s_luav *		Lua::getNestedVar(std::string name)
+Lua::Bundle *		Lua::getNestedVar(std::string name)
 {
-	lua_getglobal(L, name.c_str());
+	Lua::Bundle *	tmp;
+	std::string		table;
+	std::string		remain;
+	size_t			test;
 
+	if ((test = name.find('.')) != std::string::npos)
+	{
+		table = name.substr(0, test);
+		remain = name.substr(test + 1, std::string::npos);
+	}
+
+	if (!lua_istable(L, -1))
+	{
+		std::cout << table << " is no table !" << std::endl;
+		return NULL;
+	}
+	if ((test = remain.find('.')) != std::string::npos)
+	{
+		lua_pushstring(L, remain.substr(0, test).c_str());
+		lua_gettable(L, -2);
+		tmp = getNestedVar(remain);
+		lua_pop(L, 2);
+		return tmp;
+	}
+	lua_pushstring(L, remain.c_str());
+	lua_gettable(L, -2);
+	tmp = makeBundle(remain);
+	lua_pop(L, 2);
+	return tmp;
 }
 
-Lua::s_luav *		Lua::getVar(std::string name)
+Lua::Bundle *		Lua::getVar(std::string name)
 {
-	Lua::s_luav *	tmp;
+	size_t			i;
+	Lua::Bundle *	tmp;
 
-	if (name.find('.') != std::string::npos)
-		std::cout << "nested va;" << std::endl;
+	if ((i = name.find('.')) != std::string::npos)
+	{
+		lua_getglobal(L, name.substr(0, i).c_str());
+		return getNestedVar(name);
+	}
 
-	tmp = new Lua::s_luav();
 	lua_getglobal(L, name.c_str());
-
-	if (lua_isnumber(L, -1))
-	{
-		tmp->var._i = lua_tonumber(L, -1);
-		tmp->type = Lua::TNUMBER;
-	}
-	else if (lua_isstring(L, -1))
-	{
-		tmp->var._s = lua_tostring(L, -1);
-		tmp->type = Lua::TSTRING;
-	}
-	else
-	{
-		std::cout << "Unable to convert such value " << name << ": ";
-		printType(lua_type (L, -1));
-	}
+	tmp = makeBundle(name);
 	lua_pop(L, 1);
+
+
+	printType(lua_type(L, -1));
 	return (tmp);
 }
 

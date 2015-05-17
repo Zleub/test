@@ -2,11 +2,11 @@
 //      ./shddddddddhs+.
 //    :yddddddddddddddddy:
 //  `sdddddddddddddddddddds`
-//  ydddh+sdddddddddy+ydddds  None:Lua
+//  ydddh+sdddddddddy+ydddds  test:Lua
 // /ddddy:oddddddddds:sddddd/ By adebray - adebray
 // sdddddddddddddddddddddddds
 // sdddddddddddddddddddddddds Created: 2015-03-24 10:27:00
-// :ddddddddddhyyddddddddddd: Modified: 2015-05-12 04:08:52
+// :ddddddddddhyyddddddddddd: Modified: 2015-05-17 05:12:51
 //  odddddddd/`:-`sdddddddds
 //   +ddddddh`+dh +dddddddo
 //    -sdddddh///sdddddds-
@@ -17,6 +17,7 @@
 #define LUA_HPP
 
 #include <iostream>
+#include <functional>
 
 extern "C" {
 	#include <luaconf.h>
@@ -26,15 +27,6 @@ extern "C" {
 }
 
 class	Lua {
-private:
-	Lua(Lua const &);
-	Lua &	operator=(Lua const &);
-
-	lua_State	*L;
-
-	void			getError(int);
-	s_luav *		getNestedVar(std::string);
-
 public:
 	typedef enum	e_luav
 	{
@@ -51,25 +43,36 @@ public:
 
 	typedef union	u_luav
 	{
-		char const	*_s;
-		int			_i;
+		std::function<void()>	_ptr;
+		char const		*_s;
+		int				_i;
 	}				Lunion;
 
-	struct s_luav
+	typedef struct s_luav
 	{
 		Lunion	var;
 		Type	type;
-	};
+	}				Bundle;
 
 
 	Lua(void);
 	~Lua(void);
 	void		init(void);
 	void		exec(std::string);
-	s_luav *	getVar(std::string);
+	Bundle *	getVar(std::string);
 	void		printType(int);
+
+private:
+	Lua(Lua const &);
+	Lua &	operator=(Lua const &);
+
+	lua_State	*L;
+
+	void			getError(int);
+	Bundle *		getNestedVar(std::string);
+	Bundle *		makeBundle(std::string);
 };
 
-std::ostream &		operator<<(std::ostream & os, Lua::s_luav * obj);
+std::ostream &		operator<<(std::ostream & os, Lua::Bundle * obj);
 
 #endif
